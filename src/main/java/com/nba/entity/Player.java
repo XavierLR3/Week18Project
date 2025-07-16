@@ -2,7 +2,6 @@ package com.nba.entity;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.Set;
 
@@ -20,7 +19,7 @@ public class Player {
 
     @ManyToOne
     @JoinColumn(name = "team_id")
-    @JsonBackReference
+    @JsonBackReference  // Prevents infinite JSON recursion with Team
     private Team team;
 
     @ManyToMany
@@ -29,11 +28,13 @@ public class Player {
         joinColumns = @JoinColumn(name = "player_id"),
         inverseJoinColumns = @JoinColumn(name = "skill_id")
     )
-    @JsonManagedReference // ✅ Add this to prevent recursion
     private Set<Skill> skills;
 
-    public Player() {}
+    // 👇 No-args constructor (required by JPA)
+    public Player() {
+    }
 
+    // 👇 All-args constructor
     public Player(Integer id, String name, String position, Team team, Set<Skill> skills) {
         this.id = id;
         this.name = name;
@@ -42,7 +43,7 @@ public class Player {
         this.skills = skills;
     }
 
-    // Getters and Setters
+    // 👇 Getters and Setters
 
     public Integer getId() {
         return id;

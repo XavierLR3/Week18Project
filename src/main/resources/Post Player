@@ -1,0 +1,12 @@
+{
+    "name": "Jaylen Brown",
+    "position": "Small Forward",
+    "team": {
+        "id": 6
+    },
+    "skills": [
+        {
+            "id": 4
+        }
+    ]
+}
